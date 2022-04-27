@@ -1,0 +1,10 @@
+<button (click)="changeFunctionCall()">{{frontendHandle ? 'Frontend' : 'Backend'}}</button>
+<input type="text" placeholder="search..."
+  (input)="frontendHandle ? handleInputChange($event.target.value) :handleInputChangeBackend($event.target.value)"
+  [(ngModel)]="inputValue">
+<p *ngIf="isLoading">Loading Data ...</p>
+<ul *ngIf="isDataAvailable && !isLoading">
+  <li *ngFor="let filteredList of filteredLists">{{filteredList.name}}</li>
+</ul>
+<p *ngIf="(!isLoading) && isError">Sorry! we are currently not able to fetch data</p>
+<p *ngIf="!isLoading && filteredLists.length === 0">No results Found</p>
