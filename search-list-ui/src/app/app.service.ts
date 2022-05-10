@@ -9,6 +9,10 @@ export class AppService {
 
   rootURL = '/api';
 
+  // getUsers() {
+  //   return this.http.get('app_backend/api/' + '/movies');
+  // }
+
   getUsers() {
     return this.http.get(this.rootURL + '/movies');
   }

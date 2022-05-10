@@ -1,0 +1,17 @@
+version: "3"
+services:
+  app_backend:
+    image: search-service:1.0
+    ports:
+      - "8000:8000"
+    networks:
+      - proxynet
+  app_frontend:
+    image: search-frontend:1.0
+    ports:
+      - "4000:4000"
+    networks:
+      - proxynet
+networks:
+  proxynet:
+    driver: bridge

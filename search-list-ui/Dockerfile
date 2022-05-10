@@ -1,13 +1,12 @@
-#stage1
-FROM node:latest as node
+# Stage 1: Build an Angular Docker Image
+FROM node:14 as build
 WORKDIR /app
-COPY . .
-RUN npm install 
-RUN npm run build --prod
-
-#stag2
-FROM nginx:alpine
-COPY --from=node /app/dist/search-list-ui /usr/share/nginx/html
-
-# Expose port 4200 
-EXPOSE 4200
+COPY package*.json /app/
+RUN npm install
+COPY . /app
+ARG configuration=production
+RUN npm run build -- --outputPath=./dist/search-list-ui --configuration $configuration
+# Stage 2, use the compiled app, ready for production with Nginx
+FROM nginx
+COPY --from=build /app/dist/search-list-ui/ /usr/share/nginx/html
+COPY /nginx-custom.conf /etc/nginx/conf.d/default.conf
